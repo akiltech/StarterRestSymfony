@@ -1,6 +1,6 @@
 {
-    "type": "project",
-    "license": "proprietary",
+    "type": "akil-tech/starter-rest-symfony",
+    "license": "MIT",
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",
@@ -12,6 +12,9 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "phpunit/phpunit": "^7.5",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "config": {
         "preferred-install": {
@@ -42,12 +45,11 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update",
+        "cghooks": "./vendor/bin/cghooks",
+        "csfix": "./vendor/bin/phpcbf --standard=PSR2 --extensions=php --ignore=vendor ./",
+        "cscheck": "./vendor/bin/phpcs --standard=PSR2 --extensions=php --ignore=vendor ./"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -56,6 +58,19 @@
         "symfony": {
             "allow-contrib": false,
             "require": "4.3.*"
+        },
+        "hooks": {
+            "pre-commit": [
+                "echo committing as $(git config user.name)",
+                "composer csfix",
+                "./vendor/bin/phpunit",
+                "./vendor/bin/phpcs --standard=PSR2 --extensions=php --ignore=vendor ./"
+            ],
+            "pre-push": [
+                "php-cs-fixer fix --dry-run .",
+                "./vendor/bin/phpunit"
+            ],
+            "post-merge": "composer install"
         }
     }
 }
