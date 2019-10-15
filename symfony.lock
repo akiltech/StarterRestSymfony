@@ -107,6 +107,9 @@
             "phpcs.xml.dist"
         ]
     },
+    "symfony/browser-kit": {
+        "version": "v4.3.5"
+    },
     "symfony/cache": {
         "version": "v4.3.5"
     },
@@ -129,10 +132,16 @@
             "config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v4.3.5"
+    },
     "symfony/debug": {
         "version": "v4.3.5"
     },
     "symfony/dependency-injection": {
+        "version": "v4.3.5"
+    },
+    "symfony/dom-crawler": {
         "version": "v4.3.5"
     },
     "symfony/dotenv": {
